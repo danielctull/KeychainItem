@@ -23,14 +23,14 @@ final class KeychainTests: XCTestCase {
     }
 
     func testSet() throws {
-        var keychain = Keychain(.test)
+        let keychain = Keychain(.test)
         let value = UUID().uuidString
         keychain.wrappedValue = value
         XCTAssertEqual(keychain.wrappedValue, value)
     }
 
     func testDelete() {
-        var keychain = Keychain(.test)
+        let keychain = Keychain(.test)
         let value = UUID().uuidString
         keychain.wrappedValue = value
         keychain.wrappedValue = nil
@@ -38,7 +38,7 @@ final class KeychainTests: XCTestCase {
     }
 
     func testSetAgain() throws {
-        var keychain = Keychain(.test)
+        let keychain = Keychain(.test)
         let old = UUID().uuidString
         keychain.wrappedValue = old
         XCTAssertEqual(keychain.wrappedValue, old)

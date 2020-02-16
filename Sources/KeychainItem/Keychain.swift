@@ -1,6 +1,6 @@
 
 @propertyWrapper
-public struct Keychain<Value> {
+public class Keychain<Value> {
 
     public let item: KeychainItem<Value>
 
