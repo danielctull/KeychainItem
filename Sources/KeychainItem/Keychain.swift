@@ -1,4 +1,21 @@
 
+@propertyWrapper
+public struct Keychain<Value> {
+
+    public let item: KeychainItem<Value>
+
+    public init(item: KeychainItem<Value>) {
+        self.item = item
+    }
+
+    public var wrappedValue: Value? {
+        get { try? value(for: item) }
+        set { try? setValue(newValue, for: item) }
+    }
+}
+
+// MARK: - Keychain functions
+
 import Foundation
 import Security
 
@@ -18,9 +35,9 @@ extension KeychainItem {
     }
 }
 
-enum Keychain {
+extension Keychain {
 
-    static func value<Value>(for item: KeychainItem<Value>) throws -> Value? {
+    private func value(for item: KeychainItem<Value>) throws -> Value? {
         var query = item.query
         query[kSecReturnData as String] = true as AnyObject
         var result: AnyObject?
@@ -31,7 +48,12 @@ enum Keychain {
         return try item.decode(data)
     }
 
-    static func setValue<Value>(_ value: Value, for item: KeychainItem<Value>) throws {
+    func setValue(_ value: Value?, for item: KeychainItem<Value>) throws {
+
+        guard let value = value else {
+            try deleteValue(for: item)
+            return
+        }
 
         do {
             try addValue(value, for: item)
@@ -41,12 +63,12 @@ enum Keychain {
         }
     }
 
-    static func deleteValue<Value>(for item: KeychainItem<Value>) throws {
+    func deleteValue(for item: KeychainItem<Value>) throws {
         let status = SecItemDelete(item.query as CFDictionary)
         guard status == errSecSuccess else { throw KeychainError(status: status) }
     }
 
-    static func addValue<Value>(_ value: Value, for item: KeychainItem<Value>) throws {
+    func addValue(_ value: Value, for item: KeychainItem<Value>) throws {
         let data = try item.encode(value)
         var query = item.query
         query[kSecValueData as String] = data as AnyObject

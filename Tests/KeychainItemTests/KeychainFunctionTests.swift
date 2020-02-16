@@ -1,65 +1,50 @@
 
-@testable import KeychainItem
+import KeychainItem
 import XCTest
 import Security
 
-final class KeychainFunctionTests: XCTestCase {
+final class KeychainTests: XCTestCase {
 
-    func testCopy() throws {
-        let item = KeychainItem.test
+    func testGet() throws {
+        let keychain = Keychain(item: .test)
         let value = UUID().uuidString
         let query = [
             kSecClass as String: kSecClassGenericPassword as AnyObject,
-            kSecAttrAccount as String: item.account as AnyObject,
+            kSecAttrAccount as String: keychain.item.account as AnyObject,
             kSecValueData as String: value.data(using: .utf8)! as AnyObject]
         let status = SecItemAdd(query as CFDictionary, nil)
         guard status == errSecSuccess else { XCTFail(); return }
-        let string = try Keychain.value(for: item)
-        XCTAssertEqual(string, value)
+        XCTAssertEqual(keychain.wrappedValue, value)
     }
 
-    func testCopyNil() throws {
-        let item = KeychainItem.test
-        let string = try Keychain.value(for: item)
-        XCTAssertNil(string)
-    }
-
-    func testAdd() throws {
-        let item = KeychainItem.test
-        let value = UUID().uuidString
-        try Keychain.addValue(value, for: item)
-        let string = try Keychain.value(for: item)
-        XCTAssertEqual(string, value)
-    }
-
-    func testAddThrows() throws {
-        let item = KeychainItem.test
-        let old = UUID().uuidString
-        try Keychain.addValue(old, for: item)
-        let new = UUID().uuidString
-        XCTAssertThrowsError(try Keychain.addValue(new, for: item))
-    }
-
-    func testDeleteThrows() {
-        XCTAssertThrowsError(try Keychain.deleteValue(for: .test))
+    func testGetNil() throws {
+        let keychain = Keychain(item: .test)
+        XCTAssertNil(keychain.wrappedValue)
     }
 
     func testSet() throws {
-        let item = KeychainItem.test
+        var keychain = Keychain(item: .test)
         let value = UUID().uuidString
-        try Keychain.setValue(value, for: item)
-        let string = try Keychain.value(for: item)
-        XCTAssertEqual(string, value)
+        keychain.wrappedValue = value
+        XCTAssertEqual(keychain.wrappedValue, value)
+    }
+
+    func testDelete() {
+        var keychain = Keychain(item: .test)
+        let value = UUID().uuidString
+        keychain.wrappedValue = value
+        keychain.wrappedValue = nil
+        XCTAssertNil(keychain.wrappedValue)
     }
 
     func testSetAgain() throws {
-        let item = KeychainItem.test
+        var keychain = Keychain(item: .test)
         let old = UUID().uuidString
-        try Keychain.setValue(old, for: item)
+        keychain.wrappedValue = old
+        XCTAssertEqual(keychain.wrappedValue, old)
         let new = UUID().uuidString
-        try Keychain.setValue(new, for: item)
-        let string = try Keychain.value(for: item)
-        XCTAssertEqual(string, new)
+        keychain.wrappedValue = new
+        XCTAssertEqual(keychain.wrappedValue, new)
     }
 }
 
