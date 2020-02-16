@@ -6,7 +6,7 @@ import Security
 final class KeychainTests: XCTestCase {
 
     func testGet() throws {
-        let keychain = Keychain(item: .test)
+        let keychain = Keychain(.test)
         let value = UUID().uuidString
         let query = [
             kSecClass as String: kSecClassGenericPassword as AnyObject,
@@ -18,19 +18,19 @@ final class KeychainTests: XCTestCase {
     }
 
     func testGetNil() throws {
-        let keychain = Keychain(item: .test)
+        let keychain = Keychain(.test)
         XCTAssertNil(keychain.wrappedValue)
     }
 
     func testSet() throws {
-        var keychain = Keychain(item: .test)
+        var keychain = Keychain(.test)
         let value = UUID().uuidString
         keychain.wrappedValue = value
         XCTAssertEqual(keychain.wrappedValue, value)
     }
 
     func testDelete() {
-        var keychain = Keychain(item: .test)
+        var keychain = Keychain(.test)
         let value = UUID().uuidString
         keychain.wrappedValue = value
         keychain.wrappedValue = nil
@@ -38,7 +38,7 @@ final class KeychainTests: XCTestCase {
     }
 
     func testSetAgain() throws {
-        var keychain = Keychain(item: .test)
+        var keychain = Keychain(.test)
         let old = UUID().uuidString
         keychain.wrappedValue = old
         XCTAssertEqual(keychain.wrappedValue, old)

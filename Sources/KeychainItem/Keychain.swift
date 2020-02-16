@@ -4,7 +4,7 @@ public struct Keychain<Value> {
 
     public let item: KeychainItem<Value>
 
-    public init(item: KeychainItem<Value>) {
+    public init(_ item: KeychainItem<Value>) {
         self.item = item
     }
 
