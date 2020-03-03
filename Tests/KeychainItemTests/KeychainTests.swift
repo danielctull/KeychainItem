@@ -50,7 +50,7 @@ final class KeychainTests: XCTestCase {
 
 extension KeychainItem where Value == String {
 
-    static var test: KeychainItem<String> {
+    fileprivate static var test: KeychainItem<String> {
         KeychainItem(
             account: UUID().uuidString,
             decode: { String(data: $0, encoding: .utf8)! },
