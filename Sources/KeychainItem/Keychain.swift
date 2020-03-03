@@ -48,7 +48,7 @@ extension Keychain {
         return try item.decode(data)
     }
 
-    func setValue(_ value: Value?, for item: KeychainItem<Value>) throws {
+    private func setValue(_ value: Value?, for item: KeychainItem<Value>) throws {
 
         guard let value = value else {
             try deleteValue(for: item)
@@ -63,12 +63,12 @@ extension Keychain {
         }
     }
 
-    func deleteValue(for item: KeychainItem<Value>) throws {
+    private func deleteValue(for item: KeychainItem<Value>) throws {
         let status = SecItemDelete(item.query as CFDictionary)
         guard status == errSecSuccess else { throw KeychainError(status: status) }
     }
 
-    func addValue(_ value: Value, for item: KeychainItem<Value>) throws {
+    private func addValue(_ value: Value, for item: KeychainItem<Value>) throws {
         let data = try item.encode(value)
         var query = item.query
         query[kSecValueData as String] = data as AnyObject
