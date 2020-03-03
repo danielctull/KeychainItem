@@ -1,6 +1,6 @@
 
 @propertyWrapper
-public class Keychain<Value> {
+public final class Keychain<Value> {
 
     public let item: KeychainItem<Value>
 
