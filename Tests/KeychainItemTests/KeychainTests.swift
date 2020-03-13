@@ -53,6 +53,7 @@ extension KeychainItem where Value == String {
     fileprivate static var test: KeychainItem<String> {
         KeychainItem(
             account: UUID().uuidString,
+            accessGroup: nil,
             decode: { String(data: $0, encoding: .utf8)! },
             encode: { $0.data(using: .utf8)! })
     }

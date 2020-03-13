@@ -67,6 +67,7 @@ fileprivate struct Credentials: Codable, Equatable {
 extension KeychainItem where Value == Credentials {
 
     fileprivate static var codable: KeychainItem {
-        KeychainItem(account: UUID().uuidString)
+        KeychainItem(account: UUID().uuidString,
+                     accessGroup: nil)
     }
 }

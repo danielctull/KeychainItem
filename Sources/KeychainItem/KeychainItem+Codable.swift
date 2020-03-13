@@ -3,9 +3,11 @@ import Foundation
 
 extension KeychainItem where Value: Codable {
 
-    public init(account: String) {
+    public init(account: String,
+                accessGroup: AccessGroup?) {
 
         self.init(account: account,
+                  accessGroup: accessGroup,
                   decode: JSONDecoder().decode,
                   encode: JSONEncoder().encode)
     }
