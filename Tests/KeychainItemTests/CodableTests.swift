@@ -1,7 +1,7 @@
 
 import KeychainItem
-import XCTest
 import Security
+import XCTest
 
 final class CodableTests: XCTestCase {
 
@@ -12,9 +12,13 @@ final class CodableTests: XCTestCase {
         let query = [
             kSecClass as String: kSecClassGenericPassword as AnyObject,
             kSecAttrAccount as String: keychain.item.account as AnyObject,
-            kSecValueData as String: data as AnyObject]
+            kSecValueData as String: data as AnyObject
+        ]
         let status = SecItemAdd(query as CFDictionary, nil)
-        guard status == errSecSuccess else { XCTFail(); return }
+        guard status == errSecSuccess else {
+            XCTFail("Failed with error: \(status)")
+            return
+        }
         XCTAssertEqual(keychain.wrappedValue, value)
     }
 
@@ -54,7 +58,7 @@ final class CodableTests: XCTestCase {
     }
 }
 
-fileprivate struct Credentials: Codable, Equatable {
+private struct Credentials: Codable, Equatable {
     let username: String
     let password: String
 

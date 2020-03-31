@@ -1,7 +1,7 @@
 
 import KeychainItem
-import XCTest
 import Security
+import XCTest
 
 final class KeychainTests: XCTestCase {
 
@@ -11,9 +11,13 @@ final class KeychainTests: XCTestCase {
         let query = [
             kSecClass as String: kSecClassGenericPassword as AnyObject,
             kSecAttrAccount as String: keychain.item.account as AnyObject,
-            kSecValueData as String: value.data(using: .utf8)! as AnyObject]
+            kSecValueData as String: try XCTUnwrap(value.data(using: .utf8)) as AnyObject
+        ]
         let status = SecItemAdd(query as CFDictionary, nil)
-        guard status == errSecSuccess else { XCTFail(); return }
+        guard status == errSecSuccess else {
+            XCTFail("Failed with error: \(status)")
+            return
+        }
         XCTAssertEqual(keychain.wrappedValue, value)
     }
 
@@ -54,7 +58,7 @@ extension KeychainItem where Value == String {
         KeychainItem(
             account: UUID().uuidString,
             accessGroup: nil,
-            decode: { String(data: $0, encoding: .utf8)! },
-            encode: { $0.data(using: .utf8)! })
+            decode: { try XCTUnwrap(String(data: $0, encoding: .utf8)) },
+            encode: { try XCTUnwrap($0.data(using: .utf8)) })
     }
 }
