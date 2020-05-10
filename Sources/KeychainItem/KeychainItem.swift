@@ -10,7 +10,7 @@ public struct KeychainItem<Value> {
     let encode: (Value) throws -> Data
 
     public init(account: String,
-                accessGroup: AccessGroup?,
+                accessGroup: AccessGroup? = nil,
                 decode: @escaping (Data) throws -> Value,
                 encode: @escaping (Value) throws -> Data) {
         self.accessGroup = accessGroup
