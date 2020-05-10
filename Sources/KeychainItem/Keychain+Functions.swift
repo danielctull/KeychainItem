@@ -28,7 +28,7 @@ extension KeychainItem {
 
 extension Keychain {
 
-    func value(for item: KeychainItem<Value>) throws -> Value? {
+    static func value(for item: KeychainItem<Value>) throws -> Value? {
         var query = item.query
         query[kSecReturnData as String] = true as AnyObject
         var result: AnyObject?
@@ -39,7 +39,7 @@ extension Keychain {
         return try item.decode(data)
     }
 
-    func setValue(_ value: Value?, for item: KeychainItem<Value>) throws {
+    static func setValue(_ value: Value?, for item: KeychainItem<Value>) throws {
 
         NotificationCenter.default.post(name: .keychainItemWillChange, object: item)
 
@@ -56,12 +56,12 @@ extension Keychain {
         }
     }
 
-    private func deleteValue(for item: KeychainItem<Value>) throws {
+    private static func deleteValue(for item: KeychainItem<Value>) throws {
         let status = SecItemDelete(item.query as CFDictionary)
         guard status == errSecSuccess else { throw KeychainError(status: status) }
     }
 
-    private func addValue(_ value: Value, for item: KeychainItem<Value>) throws {
+    private static func addValue(_ value: Value, for item: KeychainItem<Value>) throws {
         let data = try item.encode(value)
         var query = item.query
         query[kSecValueData as String] = data as AnyObject

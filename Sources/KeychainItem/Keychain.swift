@@ -9,7 +9,7 @@ public final class Keychain<Value> {
     }
 
     public var wrappedValue: Value? {
-        get { try? value(for: item) }
-        set { try? setValue(newValue, for: item) }
+        get { try? Keychain.value(for: item) }
+        set { try? Keychain.setValue(newValue, for: item) }
     }
 }
