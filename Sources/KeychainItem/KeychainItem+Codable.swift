@@ -3,7 +3,7 @@ import Foundation
 
 extension KeychainItem where Value: Codable {
 
-    public init(account: String,
+    public init(account: Account,
                 accessGroup: AccessGroup? = nil) {
 
         self.init(account: account,

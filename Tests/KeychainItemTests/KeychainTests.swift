@@ -10,7 +10,7 @@ final class KeychainTests: XCTestCase {
         let value = UUID().uuidString
         let query = [
             kSecClass as String: kSecClassGenericPassword as AnyObject,
-            kSecAttrAccount as String: keychain.item.account as AnyObject,
+            kSecAttrAccount as String: keychain.item.account.rawValue as AnyObject,
             kSecValueData as String: try XCTUnwrap(value.data(using: .utf8)) as AnyObject
         ]
         let status = SecItemAdd(query as CFDictionary, nil)
@@ -56,7 +56,7 @@ extension KeychainItem where Value == String {
 
     fileprivate static var test: KeychainItem<String> {
         KeychainItem(
-            account: UUID().uuidString,
+            account: Account(rawValue: UUID().uuidString),
             accessGroup: nil,
             decode: { try XCTUnwrap(String(data: $0, encoding: .utf8)) },
             encode: { try XCTUnwrap($0.data(using: .utf8)) })

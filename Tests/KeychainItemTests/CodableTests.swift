@@ -11,7 +11,7 @@ final class CodableTests: XCTestCase {
         let data = try JSONEncoder().encode(value)
         let query = [
             kSecClass as String: kSecClassGenericPassword as AnyObject,
-            kSecAttrAccount as String: keychain.item.account as AnyObject,
+            kSecAttrAccount as String: keychain.item.account.rawValue as AnyObject,
             kSecValueData as String: data as AnyObject
         ]
         let status = SecItemAdd(query as CFDictionary, nil)
@@ -71,7 +71,7 @@ private struct Credentials: Codable, Equatable {
 extension KeychainItem where Value == Credentials {
 
     fileprivate static var codable: KeychainItem {
-        KeychainItem(account: UUID().uuidString,
+        KeychainItem(account: Account(rawValue: UUID().uuidString),
                      accessGroup: nil)
     }
 }

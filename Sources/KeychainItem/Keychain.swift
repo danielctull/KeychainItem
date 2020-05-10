@@ -30,7 +30,7 @@ extension KeychainItem {
     fileprivate var query: [String: AnyObject] {
         var query = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: account as AnyObject
+            kSecAttrAccount as String: account.rawValue as AnyObject
         ]
         if let accessGroup = accessGroup {
             query[kSecAttrAccessGroup as String] = accessGroup.rawValue as AnyObject
