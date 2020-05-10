@@ -2,6 +2,10 @@
 import Foundation
 import Security
 
+extension Notification.Name {
+    static let keychainItemWillChange = Notification.Name(rawValue: "uk.co.danieltull.KeychainItem.keychainItemWillChange")
+}
+
 struct KeychainError: Error {
     let status: OSStatus
 }
@@ -36,6 +40,8 @@ extension Keychain {
     }
 
     func setValue(_ value: Value?, for item: KeychainItem<Value>) throws {
+
+        NotificationCenter.default.post(name: .keychainItemWillChange, object: item)
 
         guard let value = value else {
             try deleteValue(for: item)
