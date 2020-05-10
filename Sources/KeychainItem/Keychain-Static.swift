@@ -1,4 +1,6 @@
 
+#if !(canImport(Combine) && canImport(SwiftUI))
+
 @propertyWrapper
 public final class Keychain<Value> {
 
@@ -13,3 +15,5 @@ public final class Keychain<Value> {
         set { try? Keychain.setValue(newValue, for: item) }
     }
 }
+
+#endif
