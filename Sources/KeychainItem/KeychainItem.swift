@@ -22,8 +22,11 @@ public struct KeychainItem<Value> {
 
 extension KeychainItem {
 
-    public struct AccessGroup {
-        let rawValue: String
+    public struct AccessGroup: RawRepresentable, Equatable {
+        public let rawValue: String
+        public init(rawValue: String) {
+            self.rawValue = rawValue
+        }
     }
 }
 
