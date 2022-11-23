@@ -1,5 +1,5 @@
 
-#if !(canImport(Combine) && canImport(SwiftUI))
+#if canImport(Security) && !(canImport(Combine) && canImport(SwiftUI))
 
 @propertyWrapper
 public final class Keychain<Value> {

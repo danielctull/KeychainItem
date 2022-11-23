@@ -1,4 +1,6 @@
 
+#if canImport(Security)
+
 import Foundation
 import Security
 
@@ -69,3 +71,5 @@ extension Keychain {
         guard status == errSecSuccess else { throw KeychainError(status: status) }
     }
 }
+
+#endif

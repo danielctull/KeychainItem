@@ -1,4 +1,6 @@
 
+#if canImport(Security)
+
 import KeychainItem
 import Security
 import XCTest
@@ -75,3 +77,5 @@ extension KeychainItem where Value == Credentials {
                      accessGroup: nil)
     }
 }
+
+#endif

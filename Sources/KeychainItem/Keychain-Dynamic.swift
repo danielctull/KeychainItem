@@ -1,5 +1,5 @@
 
-#if canImport(Combine) && canImport(SwiftUI)
+#if canImport(Security) && canImport(Combine) && canImport(SwiftUI)
 
 import Combine
 import SwiftUI

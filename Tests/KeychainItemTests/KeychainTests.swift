@@ -1,4 +1,6 @@
 
+#if canImport(Security)
+
 import KeychainItem
 import Security
 import XCTest
@@ -62,3 +64,5 @@ extension KeychainItem where Value == String {
             encode: { try XCTUnwrap($0.data(using: .utf8)) })
     }
 }
+
+#endif
